@@ -1,0 +1,30 @@
+<!--
+  Generated template for the SchedulePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>schedule</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-item-divider color="primary">
+        <ion-avatar item-start>
+          <img src="https://ral.maps.arcgis.com/sharing/rest/community/users/{{user.username}}/info/{{user.thumbnail}}"/>
+
+        </ion-avatar>
+        <h1>{{user.fullName}}</h1>
+      </ion-item-divider>  
+
+  <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
+    <ion-item *ngFor="let assignment of assignments"><ion-label><h2>{{ assignment.attributes.location }}</h2><p>{{ getCodedValue(assignment.attributes.assignmentType, 'assignmentType') }}</p><p>Permit #{{ assignment.attributes.workOrderId }}</p></ion-label></ion-item>
+  </ion-list>  
+  <button ion-button (click)="setSchedule()">Save</button>
+  
+</ion-content>
