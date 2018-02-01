@@ -362,7 +362,7 @@ var InspectionsProvider = (function () {
         return new Promise(function (resolve) {
             var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]().set('f', 'json')
                 .set('token', token)
-                .set('where', "workerId=" + workerid)
+                .set('where', "workerId=" + workerid + " and status <> 3")
                 .set('outFields', '*')
                 .set('orderByFields', 'dueDate');
             _this.http.get(url, { params: params })

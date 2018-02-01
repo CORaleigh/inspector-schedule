@@ -36,7 +36,7 @@ export class InspectionsProvider {
     return new Promise(resolve => {
       let params = new HttpParams().set('f', 'json')
         .set('token', token)
-        .set('where', "workerId=" + workerid)
+        .set('where', "workerId=" + workerid + " and status <> 3")
         .set('outFields', '*')
         .set('orderByFields', 'dueDate');
 
