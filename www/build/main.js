@@ -47,7 +47,7 @@ var ReassignPage = (function () {
                         inspector.attributes.thumbnail = 'https://ral.maps.arcgis.com/sharing/rest/community/users/' + inspector.attributes.userId + '/info/' + data['thumbnail'];
                     }
                     else {
-                        inspector.attributes.thumbnail = 'www/assets/imgs/contact.png';
+                        inspector.attributes.thumbnail = 'assets/imgs/contact.png';
                     }
                 });
             });
