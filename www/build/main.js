@@ -130,7 +130,7 @@ var SchedulePage = (function () {
         this.assignments = [];
         this.token = navParams.get('token');
         this.username = navParams.get('username');
-        this.user.thumbnail = 'www/assets/imgs/contact.png';
+        this.user.thumbnail = 'assets/imgs/contact.png';
     }
     SchedulePage.prototype.getUserInfo = function (token, username) {
         var _this = this;
