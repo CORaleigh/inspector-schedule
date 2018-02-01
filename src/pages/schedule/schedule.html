@@ -6,25 +6,36 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>schedule</ion-title>
-  </ion-navbar>
+  <ion-navbar color="primary">
+      <ion-item no-lines class="item-trns">
+          <ion-avatar item-start>
+            <img src="{{user.thumbnail}}"/>
+  
+          </ion-avatar>
+          <h1>{{user.fullName}}</h1>
+        </ion-item>    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <ion-item-divider color="primary">
-        <ion-avatar item-start>
-          <img src="https://ral.maps.arcgis.com/sharing/rest/community/users/{{user.username}}/info/{{user.thumbnail}}"/>
 
-        </ion-avatar>
-        <h1>{{user.fullName}}</h1>
-      </ion-item-divider>  
 
   <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
-    <ion-item *ngFor="let assignment of assignments"><ion-label><h2>{{ assignment.attributes.location }}</h2><p>{{ getCodedValue(assignment.attributes.assignmentType, 'assignmentType') }}</p><p>Permit #{{ assignment.attributes.workOrderId }}</p></ion-label></ion-item>
+    <ion-item-sliding #item  *ngFor="let assignment of assignments">
+      <ion-item><ion-label><h2>{{ assignment.attributes.location }}</h2><p>{{ getCodedValue(assignment.attributes.assignmentType, 'assignmentType') }}</p><p>Permit #{{ assignment.attributes.workOrderId }}</p></ion-label></ion-item>
+      <ion-item-options side="right">
+          <button ion-button (click)="reassign(assignment)">
+              <ion-icon name="reassign"></ion-icon>            
+            Reassign
+          </button>
+        </ion-item-options>
+    </ion-item-sliding>
   </ion-list>  
-  <button ion-button (click)="setSchedule()">Save</button>
   
 </ion-content>
+<ion-footer>
+    <ion-toolbar>
+      <button ion-button full (click)="setSchedule()">Save</button>
+    </ion-toolbar>
+  </ion-footer>

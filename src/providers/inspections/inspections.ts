@@ -48,6 +48,23 @@ export class InspectionsProvider {
       });
     });    
   }
+  getInspectors(token) {
+    let url =  'https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services/workers_1542a408cfdd45f49da345d802197905/FeatureServer/0/query';
+    return new Promise(resolve => {
+      let params = new HttpParams().set('f', 'json')
+        .set('token', token)
+        .set('where', '1=1')
+        .set('orderByFields', 'name')
+        .set('outFields', '*');
+      
+      this.http.get(url, {params: params})
+        .subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log(err);
+      });
+    });    
+  }
   updateInspections(token, features) {
     let url =  'https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services/assignments_1542a408cfdd45f49da345d802197905/FeatureServer/0/updateFeatures';
     return new Promise(resolve => {

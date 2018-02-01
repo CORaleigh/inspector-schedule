@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-import { App, NavController } from 'ionic-angular';
+import { App, NavController, NavParams, ToastController } from 'ionic-angular';
 import { SchedulePage } from '../schedule/schedule';
 @Component({
   selector: 'page-home',
@@ -8,11 +8,17 @@ import { SchedulePage } from '../schedule/schedule';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public appCtrl: App) {
+  constructor(public navCtrl: NavController, public appCtrl: App, public navParams:NavParams, public toast:ToastController) {
     let params = new URLSearchParams(window.location.hash);
     let token = params.get('#access_token');
     let username = params.get('username');
-    if (token) {
+
+    if (this.navParams.get('error')) {
+      this.toast.create({
+        message: this.navParams.get('error'),
+        duration: 3000
+      }).present();
+    } else if (token) {
       this.navCtrl.push(SchedulePage, {token: token, username: username});
     }
   }

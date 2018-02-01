@@ -11,12 +11,15 @@ import { LoginProvider } from '../providers/login/login';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { UserinfoProvider } from '../providers/userinfo/userinfo';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-
+import { ReassignPage } from '../pages/reassign/reassign';
+import { InspectorPipe } from '../pipes/inspector/inspector';
 @NgModule({
   declarations: [
     MyApp,
     HomePage, 
-    SchedulePage
+    SchedulePage,
+    ReassignPage, 
+    InspectorPipe
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   entryComponents: [
     MyApp,
     HomePage, 
-    SchedulePage
+    SchedulePage,
+    ReassignPage
   ],
   providers: [
     StatusBar,

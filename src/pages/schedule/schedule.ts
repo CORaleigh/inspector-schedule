@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserinfoProvider } from '../../providers/userinfo/userinfo';
 import { InspectionsProvider } from '../../providers/inspections/inspections';
+import { ReassignPage } from '../reassign/reassign';
+import { HomePage } from '../home/home';
 /**
  * Generated class for the SchedulePage page.
  *
@@ -23,13 +25,19 @@ export class SchedulePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public userinfo:UserinfoProvider, public inspections: InspectionsProvider) {
     this.token = navParams.get('token');
     this.username = navParams.get('username');
+    this.user.thumbnail = '../../assets/imgs/contact.png';
     
   }
   getUserInfo(token, username) {
     this.userinfo.getUserInfo(token, username).then(data => {
       this.user = data;
+      if (this.user.thumbnail) {
+        this.user.thumbnail = 'https://ral.maps.arcgis.com/sharing/rest/community/users/' + username+ '/info/' + this.user.thumbnail;
+      } 
       this.inspections.getWorkerInfo(token, username).then(data => {
-        if (data['features'].length > 0) {
+        if (data['error']) {
+          this.navCtrl.push(HomePage, {error: data['error']['message']});
+        } else if (data['features'].length > 0) {
           let workerid = data['features'][0]['attributes']['OBJECTID'];
           this.inspections.getInspections(token, workerid).then(data => {
             this.assignments = [];
@@ -76,9 +84,14 @@ export class SchedulePage {
     });
     this.inspections.updateInspections(this.token, this.assignments);
   }
-  ionViewDidLoad() {
+  reassign(assignment) {
+    debugger;
+    this.navCtrl.push(ReassignPage, {assignment: assignment, token: this.token});
+  }
+  ionViewDidEnter() {
     console.log('ionViewDidLoad SchedulePage');
     this.getUserInfo(this.token, this.username);
   }
+
 
 }
