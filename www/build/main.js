@@ -47,7 +47,7 @@ var ReassignPage = (function () {
                         inspector.attributes.thumbnail = 'https://ral.maps.arcgis.com/sharing/rest/community/users/' + inspector.attributes.userId + '/info/' + data['thumbnail'];
                     }
                     else {
-                        inspector.attributes.thumbnail = '../../assets/imgs/contact.png';
+                        inspector.attributes.thumbnail = 'www/assets/imgs/contact.png';
                     }
                 });
             });
@@ -130,7 +130,7 @@ var SchedulePage = (function () {
         this.assignments = [];
         this.token = navParams.get('token');
         this.username = navParams.get('username');
-        this.user.thumbnail = '../../assets/imgs/contact.png';
+        this.user.thumbnail = 'www/assets/imgs/contact.png';
     }
     SchedulePage.prototype.getUserInfo = function (token, username) {
         var _this = this;

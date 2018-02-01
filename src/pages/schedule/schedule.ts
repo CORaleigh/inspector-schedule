@@ -25,7 +25,7 @@ export class SchedulePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public userinfo:UserinfoProvider, public inspections: InspectionsProvider) {
     this.token = navParams.get('token');
     this.username = navParams.get('username');
-    this.user.thumbnail = '../../assets/imgs/contact.png';
+    this.user.thumbnail = 'www/assets/imgs/contact.png';
     
   }
   getUserInfo(token, username) {
