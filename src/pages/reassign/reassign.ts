@@ -43,10 +43,15 @@ export class ReassignPage {
     console.log(this.assignment);
     this.assignment.attributes.workerId = inspector.attributes.OBJECTID;
     this.inspections.getInspections(this.token, inspector.attributes.OBJECTID).then(data => {
-      let last = data['features'][data['features'].length - 1];
-      let dueDate:Date = new Date(last.attributes.dueDate);
-      dueDate.setHours(dueDate.getHours() + 1);
-      this.assignment.attributes.dueDate = dueDate;
+      if (data['features'].length === 0) {
+        this.assignment.attributes.dueDate = new Date();
+      } else {
+        let last = data['features'][data['features'].length - 1];
+        let dueDate:Date = new Date(last.attributes.dueDate);
+        dueDate.setHours(dueDate.getHours() + 1);
+        this.assignment.attributes.dueDate = dueDate;
+      }
+
       this.inspections.updateInspections(this.token, [this.assignment]).then(data => {
         this.navCtrl.pop();
       });      
