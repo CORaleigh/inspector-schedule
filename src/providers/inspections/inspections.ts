@@ -31,7 +31,7 @@ export class InspectionsProvider {
     });    
   }
 
-  getInspections(token, workerid) {
+  getInspections(token, workerid, reassign?) {
     let url =  'https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services/assignments_1542a408cfdd45f49da345d802197905/FeatureServer/0/query';
     return new Promise(resolve => {
       let params = new HttpParams().set('f', 'json')
@@ -39,6 +39,11 @@ export class InspectionsProvider {
         .set('where', "workerId=" + workerid + " and status <> 3")
         .set('outFields', '*')
         .set('orderByFields', 'location,workOrderId');
+
+        if (reassign) {
+          params.set('orderByFields', 'dueDate');
+        } 
+        
 
       this.http.get(url, {params: params})
         .subscribe(data => {

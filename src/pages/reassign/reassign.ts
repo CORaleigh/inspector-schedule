@@ -44,7 +44,7 @@ export class ReassignPage {
     console.log(inspector);
     console.log(this.assignment);
     this.assignment.attributes.workerId = inspector.attributes.OBJECTID;
-    this.inspections.getInspections(this.token, inspector.attributes.OBJECTID).then(data => {
+    this.inspections.getInspections(this.token, inspector.attributes.OBJECTID, true).then(data => {
       if (data['features'].length === 0) {
         this.assignment.attributes.dueDate = new Date();
       } else {
