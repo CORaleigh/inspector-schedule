@@ -4,12 +4,112 @@ webpackJsonp([2],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReassignPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_inspections_inspections__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_userinfo_userinfo__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+/**
+ * Generated class for the ReassignPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var ReassignPage = (function () {
+    function ReassignPage(navCtrl, navParams, inspections, userinfo) {
+        var _this = this;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.inspections = inspections;
+        this.userinfo = userinfo;
+        this.inspectors = [];
+        this.searchtext = "";
+        this.assignment = this.navParams.get('assignment');
+        this.token = this.navParams.get('token');
+        this.inspections.getInspectors(this.token).then(function (data) {
+            _this.inspectors = data['features'];
+            _this.inspectors.forEach(function (inspector) {
+                _this.userinfo.getUserInfo(_this.token, inspector.attributes.userId).then(function (data) {
+                    if (data['thumbnail']) {
+                        inspector.attributes.thumbnail = 'https://ral.maps.arcgis.com/sharing/rest/community/users/' + inspector.attributes.userId + '/info/' + data['thumbnail'];
+                    }
+                    else {
+                        inspector.attributes.thumbnail = 'assets/imgs/contact.png';
+                    }
+                });
+            });
+        });
+    }
+    ReassignPage.prototype.reassign = function (inspector) {
+        var _this = this;
+        console.log(inspector);
+        console.log(this.assignment);
+        this.assignment.attributes.workerId = inspector.attributes.OBJECTID;
+        this.inspections.getInspections(this.token, inspector.attributes.OBJECTID, true).then(function (data) {
+            if (data['features'].length === 0) {
+                _this.assignment.attributes.dueDate = new Date();
+            }
+            else {
+                var last = data['features'][data['features'].length - 1];
+                var dueDate = new Date(last.attributes.dueDate);
+                //date.setHours(date.getHours() + i/2);
+                dueDate = __WEBPACK_IMPORTED_MODULE_4_moment__(dueDate).add(30, 'm').toDate();
+                _this.assignment.attributes.dueDate = dueDate;
+            }
+            var features = [];
+            _this.assignment.attributes.oids.forEach(function (oid) {
+                features.push({ attributes: { OBJECTID: oid, dueDate: _this.assignment.attributes.dueDate, workerId: _this.assignment.attributes.workerId } });
+            });
+            _this.inspections.updateInspections(_this.token, features).then(function (data) {
+                _this.navCtrl.pop();
+            });
+        });
+    };
+    ReassignPage.prototype.searchEntered = function (event) {
+        this.searchtext = event.target.value;
+    };
+    ReassignPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ReassignPage');
+    };
+    ReassignPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
+            selector: 'page-reassign',template:/*ion-inline-start:"/Users/grecoj/inspector-schedule/src/pages/reassign/reassign.html"*/'<!--\n  Generated template for the ReassignPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar color="primary">\n      <ion-searchbar (ionInput)="searchEntered($event)"></ion-searchbar>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n    <ion-list>\n      <ion-item *ngFor="let inspector of (inspectors | inspectorName:searchtext)" (click)="reassign(inspector)">\n      <ion-avatar item-start>\n          <img src="{{inspector.attributes.thumbnail}}"/>\n        </ion-avatar>\n        <h1>{{inspector.attributes.name}}</h1>\n      </ion-item>\n    </ion-list>  \n</ion-content>\n'/*ion-inline-end:"/Users/grecoj/inspector-schedule/src/pages/reassign/reassign.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_inspections_inspections__["a" /* InspectionsProvider */], __WEBPACK_IMPORTED_MODULE_3__providers_userinfo_userinfo__["a" /* UserinfoProvider */]])
+    ], ReassignPage);
+    return ReassignPage;
+}());
+
+//# sourceMappingURL=reassign.js.map
+
+/***/ }),
+
+/***/ 105:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SchedulePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_userinfo_userinfo__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_inspections_inspections__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__reassign_reassign__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_userinfo_userinfo__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_inspections_inspections__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__reassign_reassign__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__home_home__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
@@ -178,106 +278,6 @@ var SchedulePage = (function () {
 
 /***/ }),
 
-/***/ 105:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReassignPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_inspections_inspections__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_userinfo_userinfo__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-/**
- * Generated class for the ReassignPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-var ReassignPage = (function () {
-    function ReassignPage(navCtrl, navParams, inspections, userinfo) {
-        var _this = this;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.inspections = inspections;
-        this.userinfo = userinfo;
-        this.inspectors = [];
-        this.searchtext = "";
-        this.assignment = this.navParams.get('assignment');
-        this.token = this.navParams.get('token');
-        this.inspections.getInspectors(this.token).then(function (data) {
-            _this.inspectors = data['features'];
-            _this.inspectors.forEach(function (inspector) {
-                _this.userinfo.getUserInfo(_this.token, inspector.attributes.userId).then(function (data) {
-                    if (data['thumbnail']) {
-                        inspector.attributes.thumbnail = 'https://ral.maps.arcgis.com/sharing/rest/community/users/' + inspector.attributes.userId + '/info/' + data['thumbnail'];
-                    }
-                    else {
-                        inspector.attributes.thumbnail = 'assets/imgs/contact.png';
-                    }
-                });
-            });
-        });
-    }
-    ReassignPage.prototype.reassign = function (inspector) {
-        var _this = this;
-        console.log(inspector);
-        console.log(this.assignment);
-        this.assignment.attributes.workerId = inspector.attributes.OBJECTID;
-        this.inspections.getInspections(this.token, inspector.attributes.OBJECTID, true).then(function (data) {
-            if (data['features'].length === 0) {
-                _this.assignment.attributes.dueDate = new Date();
-            }
-            else {
-                var last = data['features'][data['features'].length - 1];
-                var dueDate = new Date(last.attributes.dueDate);
-                //date.setHours(date.getHours() + i/2);
-                dueDate = __WEBPACK_IMPORTED_MODULE_4_moment__(dueDate).add(30, 'm').toDate();
-                _this.assignment.attributes.dueDate = dueDate;
-            }
-            var features = [];
-            _this.assignment.attributes.oids.forEach(function (oid) {
-                features.push({ attributes: { OBJECTID: oid, dueDate: _this.assignment.attributes.dueDate, workerId: _this.assignment.attributes.workerId } });
-            });
-            _this.inspections.updateInspections(_this.token, features).then(function (data) {
-                _this.navCtrl.pop();
-            });
-        });
-    };
-    ReassignPage.prototype.searchEntered = function (event) {
-        this.searchtext = event.target.value;
-    };
-    ReassignPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ReassignPage');
-    };
-    ReassignPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-reassign',template:/*ion-inline-start:"/Users/grecoj/inspector-schedule/src/pages/reassign/reassign.html"*/'<!--\n  Generated template for the ReassignPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar color="primary">\n      <ion-searchbar (ionInput)="searchEntered($event)"></ion-searchbar>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n    <ion-list>\n      <ion-item *ngFor="let inspector of (inspectors | inspectorName:searchtext)" (click)="reassign(inspector)">\n      <ion-avatar item-start>\n          <img src="{{inspector.attributes.thumbnail}}"/>\n        </ion-avatar>\n        <h1>{{inspector.attributes.name}}</h1>\n      </ion-item>\n    </ion-list>  \n</ion-content>\n'/*ion-inline-end:"/Users/grecoj/inspector-schedule/src/pages/reassign/reassign.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_inspections_inspections__["a" /* InspectionsProvider */], __WEBPACK_IMPORTED_MODULE_3__providers_userinfo_userinfo__["a" /* UserinfoProvider */]])
-    ], ReassignPage);
-    return ReassignPage;
-}());
-
-//# sourceMappingURL=reassign.js.map
-
-/***/ }),
-
 /***/ 118:
 /***/ (function(module, exports) {
 
@@ -300,11 +300,11 @@ webpackEmptyAsyncContext.id = 118;
 
 var map = {
 	"../pages/reassign/reassign.module": [
-		411,
+		410,
 		1
 	],
 	"../pages/schedule/schedule.module": [
-		410,
+		411,
 		0
 	]
 };
@@ -350,12 +350,12 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(326);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(407);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_inspections_inspections__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_inspections_inspections__ = __webpack_require__(79);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__providers_login_login__ = __webpack_require__(408);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_schedule_schedule__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_userinfo_userinfo__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_schedule_schedule__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_userinfo_userinfo__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_common_http__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_reassign_reassign__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_reassign_reassign__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pipes_inspector_inspector__ = __webpack_require__(409);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -394,8 +394,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_11__angular_common_http__["b" /* HttpClientModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/schedule/schedule.module#SchedulePageModule', name: 'SchedulePage', segment: 'schedule', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/reassign/reassign.module#ReassignPageModule', name: 'ReassignPage', segment: 'reassign', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/reassign/reassign.module#ReassignPageModule', name: 'ReassignPage', segment: 'reassign', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/schedule/schedule.module#SchedulePageModule', name: 'SchedulePage', segment: 'schedule', priority: 'low', defaultHistory: [] }
                     ]
                 })
             ],
@@ -824,60 +824,6 @@ var InspectorPipe = (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserinfoProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-/*
-  Generated class for the UserinfoProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-var UserinfoProvider = (function () {
-    function UserinfoProvider(http) {
-        this.http = http;
-        console.log('Hello UserinfoProvider Provider');
-    }
-    UserinfoProvider.prototype.getUserInfo = function (token, username) {
-        var _this = this;
-        return new Promise(function (resolve) {
-            var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]()
-                .set('f', 'json')
-                .set('token', token);
-            _this.http.get('https://ral.maps.arcgis.com/sharing/rest/community/users/' + username, { params: params })
-                .subscribe(function (data) {
-                resolve(data);
-            }, function (err) {
-                console.log(err);
-            });
-        });
-    };
-    UserinfoProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
-    ], UserinfoProvider);
-    return UserinfoProvider;
-}());
-
-//# sourceMappingURL=userinfo.js.map
-
-/***/ }),
-
-/***/ 80:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InspectionsProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
@@ -926,10 +872,12 @@ var InspectionsProvider = (function () {
             var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]().set('f', 'json')
                 .set('token', token)
                 .set('where', "workerId=" + workerid + " and status <> 3")
-                .set('outFields', '*')
-                .set('orderByFields', 'location,workOrderId');
+                .set('outFields', '*');
             if (reassign) {
-                params.set('orderByFields', 'dueDate');
+                params.set('orderByFields', 'dueDate DESC');
+            }
+            else {
+                params.set('orderByFields', 'location,workOrderId');
             }
             _this.http.get(url, { params: params })
                 .subscribe(function (data) {
@@ -984,6 +932,60 @@ var InspectionsProvider = (function () {
 
 /***/ }),
 
+/***/ 80:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserinfoProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/*
+  Generated class for the UserinfoProvider provider.
+
+  See https://angular.io/guide/dependency-injection for more info on providers
+  and Angular DI.
+*/
+var UserinfoProvider = (function () {
+    function UserinfoProvider(http) {
+        this.http = http;
+        console.log('Hello UserinfoProvider Provider');
+    }
+    UserinfoProvider.prototype.getUserInfo = function (token, username) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]()
+                .set('f', 'json')
+                .set('token', token);
+            _this.http.get('https://ral.maps.arcgis.com/sharing/rest/community/users/' + username, { params: params })
+                .subscribe(function (data) {
+                resolve(data);
+            }, function (err) {
+                console.log(err);
+            });
+        });
+    };
+    UserinfoProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
+    ], UserinfoProvider);
+    return UserinfoProvider;
+}());
+
+//# sourceMappingURL=userinfo.js.map
+
+/***/ }),
+
 /***/ 81:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -992,7 +994,7 @@ var InspectionsProvider = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(381);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__schedule_schedule__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__schedule_schedule__ = __webpack_require__(105);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);

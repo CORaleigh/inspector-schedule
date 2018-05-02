@@ -37,12 +37,13 @@ export class InspectionsProvider {
       let params = new HttpParams().set('f', 'json')
         .set('token', token)
         .set('where', "workerId=" + workerid + " and status <> 3")
-        .set('outFields', '*')
-        .set('orderByFields', 'location,workOrderId');
+        .set('outFields', '*');
 
         if (reassign) {
-          params.set('orderByFields', 'dueDate');
-        } 
+          params.set('orderByFields', 'dueDate DESC');
+        } else {
+          params.set('orderByFields', 'location,workOrderId')
+        }
         
 
       this.http.get(url, {params: params})
