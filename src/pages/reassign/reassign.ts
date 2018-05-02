@@ -48,7 +48,7 @@ export class ReassignPage {
       if (data['features'].length === 0) {
         this.assignment.attributes.dueDate = new Date();
       } else {
-        let last = data['features'][data['features'].length - 1];
+        let last = data['features'][0];
         let dueDate:Date = new Date(last.attributes.dueDate);
         
         //date.setHours(date.getHours() + i/2);

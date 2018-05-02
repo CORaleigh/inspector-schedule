@@ -66,7 +66,7 @@ var ReassignPage = (function () {
                 _this.assignment.attributes.dueDate = new Date();
             }
             else {
-                var last = data['features'][data['features'].length - 1];
+                var last = data['features'][0];
                 var dueDate = new Date(last.attributes.dueDate);
                 //date.setHours(date.getHours() + i/2);
                 dueDate = __WEBPACK_IMPORTED_MODULE_4_moment__(dueDate).add(30, 'm').toDate();
