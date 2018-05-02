@@ -34,15 +34,20 @@ export class InspectionsProvider {
   getInspections(token, workerid, reassign?) {
     let url =  'https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services/assignments_1542a408cfdd45f49da345d802197905/FeatureServer/0/query';
     return new Promise(resolve => {
-      let params = new HttpParams().set('f', 'json')
-        .set('token', token)
-        .set('where', "workerId=" + workerid + " and status <> 3")
-        .set('outFields', '*');
+      let params = null;
 
         if (reassign) {
-          params.set('orderByFields', 'dueDate DESC');
+          params = new HttpParams().set('f', 'json')
+          .set('token', token)
+          .set('where', "workerId=" + workerid + " and status <> 3")
+          .set('outFields', '*')
+          .set('orderByFields', 'dueDate DESC');
         } else {
-          params.set('orderByFields', 'location,workOrderId')
+          params = new HttpParams().set('f', 'json')
+          .set('token', token)
+          .set('where', "workerId=" + workerid + " and status <> 3")
+          .set('outFields', '*')
+          .set('orderByFields', 'location,workOrderId');          
         }
         
 

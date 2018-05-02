@@ -869,15 +869,20 @@ var InspectionsProvider = (function () {
         var _this = this;
         var url = 'https://services.arcgis.com/v400IkDOw1ad7Yad/arcgis/rest/services/assignments_1542a408cfdd45f49da345d802197905/FeatureServer/0/query';
         return new Promise(function (resolve) {
-            var params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]().set('f', 'json')
-                .set('token', token)
-                .set('where', "workerId=" + workerid + " and status <> 3")
-                .set('outFields', '*');
+            var params = null;
             if (reassign) {
-                params.set('orderByFields', 'dueDate DESC');
+                params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]().set('f', 'json')
+                    .set('token', token)
+                    .set('where', "workerId=" + workerid + " and status <> 3")
+                    .set('outFields', '*')
+                    .set('orderByFields', 'dueDate DESC');
             }
             else {
-                params.set('orderByFields', 'location,workOrderId');
+                params = new __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["d" /* HttpParams */]().set('f', 'json')
+                    .set('token', token)
+                    .set('where', "workerId=" + workerid + " and status <> 3")
+                    .set('outFields', '*')
+                    .set('orderByFields', 'location,workOrderId');
             }
             _this.http.get(url, { params: params })
                 .subscribe(function (data) {
