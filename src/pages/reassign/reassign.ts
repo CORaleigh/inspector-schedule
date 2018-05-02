@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { InspectionsProvider } from '../../providers/inspections/inspections';
 import { UserinfoProvider } from '../../providers/userinfo/userinfo';
 import { InspectorPipe } from '../../pipes/inspector/inspector';
+import * as moment from 'moment';
+
 /**
  * Generated class for the ReassignPage page.
  *
@@ -48,7 +50,11 @@ export class ReassignPage {
       } else {
         let last = data['features'][data['features'].length - 1];
         let dueDate:Date = new Date(last.attributes.dueDate);
-        dueDate.setHours(dueDate.getHours() + 0.5);
+        
+        //date.setHours(date.getHours() + i/2);
+        dueDate = moment(dueDate).add(30, 'm').toDate();
+
+
         this.assignment.attributes.dueDate = dueDate;
       }
 
