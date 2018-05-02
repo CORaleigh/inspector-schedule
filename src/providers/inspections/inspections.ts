@@ -38,7 +38,7 @@ export class InspectionsProvider {
         .set('token', token)
         .set('where', "workerId=" + workerid + " and status <> 3")
         .set('outFields', '*')
-        .set('orderByFields', 'dueDate');
+        .set('orderByFields', 'location,workOrderId');
 
       this.http.get(url, {params: params})
         .subscribe(data => {

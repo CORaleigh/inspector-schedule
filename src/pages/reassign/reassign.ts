@@ -48,11 +48,16 @@ export class ReassignPage {
       } else {
         let last = data['features'][data['features'].length - 1];
         let dueDate:Date = new Date(last.attributes.dueDate);
-        dueDate.setHours(dueDate.getHours() + 1);
+        dueDate.setHours(dueDate.getHours() + 0.5);
         this.assignment.attributes.dueDate = dueDate;
       }
 
-      this.inspections.updateInspections(this.token, [this.assignment]).then(data => {
+      let features = [];
+      this.assignment.attributes.oids.forEach(oid => {
+        features.push({attributes: {OBJECTID: oid, dueDate: this.assignment.attributes.dueDate, workerId: this.assignment.attributes.workerId}})
+      });
+
+      this.inspections.updateInspections(this.token, features).then(data => {
         this.navCtrl.pop();
       });      
     });    

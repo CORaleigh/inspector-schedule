@@ -23,7 +23,7 @@
 
   <ion-list reorder="true" (ionItemReorder)="reorderItems($event)">
     <ion-item-sliding #item  *ngFor="let assignment of assignments">
-      <ion-item><ion-label><h2>{{ assignment.attributes.location }}</h2><p>{{ getCodedValue(assignment.attributes.assignmentType, 'assignmentType') }}</p><p>Permit #{{ assignment.attributes.workOrderId }}</p></ion-label></ion-item>
+      <ion-item><ion-label><h2>{{ assignment.attributes.location }}</h2><p>{{ assignment.attributes.types }}</p><p>Permit #{{ assignment.attributes.ids }}</p></ion-label></ion-item>
       <ion-item-options side="right">
           <button ion-button (click)="reassign(assignment)">
               <ion-icon name="reassign"></ion-icon>            
@@ -36,6 +36,6 @@
 </ion-content>
 <ion-footer>
     <ion-toolbar>
-      <button ion-button full (click)="setSchedule()">Save</button>
+      <button ion-button full (click)="refresh()">Refresh</button>
     </ion-toolbar>
   </ion-footer>
